@@ -10,7 +10,7 @@ MEMORY_OVERCLOCK="600"
 WORKER="1660ti"
 
 IS_AMD=$(lspci | grep VGA | grep -i amd)
-IS_NVIDIA
+IS_NVIDIA=$(lspci | grep VGA | grep -i nvidia)
 
 # OC
 sudo nvidia-smi -pl $POWERLIMIT_WATTS
