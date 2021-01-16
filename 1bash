@@ -40,7 +40,6 @@ sudo '/home/m1/rocm-smi' --setperflevel high
 sudo '/home/m1/rocm-smi' --setmclk $MEMORY_OVERCLOCK_LEVEL
 sudo '/home/m1/rocm-smi' --setsclk $CORE_OVERCLOCK_LEVEL
 sudo '/home/m1/rocm-smi' --setfan $FAN_SP -f
-CLIENT="/home/m1/eth/10_1/ethdcrminer64 -epool us1-etc.ethermine.org:4444 -ewal $ETC_ADDRESS.$WORKERNAME -epsw x -mode 1 -dbg -1 -wd 0 -mport -3333;"
 } ## [[ ${IS_AMD} != "" ]] && {
 
 
