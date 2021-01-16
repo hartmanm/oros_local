@@ -3,6 +3,13 @@
 # ©2018,2019,2020 Michael Neill Hartman
 #
 
+RIG_NUMBER="1"
+
+ETC_ADDRESS="YOUR_ETC_ADDRESS_HERE"
+
+FAN_SPEED=50
+
+
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
 POWERLIMIT_WATTS="110"
 CORE_OVERCLOCK="50"
@@ -12,7 +19,7 @@ WORKER="1660ti"
 IS_AMD=$(lspci | grep VGA | grep -i amd)
 IS_NVIDIA=$(lspci | grep VGA | grep -i nvidia)
 
-# OC
+[[ ${IS_NVIDIA} != "" ]] && {
 sudo nvidia-smi -pl $POWERLIMIT_WATTS
 GPUS=$(nvidia-smi --query-gpu=count --format=csv,noheader,nounits | tail -1)
 NVD=nvidia-settings
@@ -26,6 +33,22 @@ ${NVD} -a [gpu:$gpu]/GPUGraphicsClockOffset[3]=$CORE_OVERCLOCK
 ${NVD} -a [gpu:$gpu]/GPUMemoryTransferRateOffset[3]=$MEMORY_OVERCLOCK
 gpu=$(($gpu+1))
 done ## while [[ $gpu -lt $GPUS ]]
+} ## [[ ${IS_NVIDIA} != "" ]] && {
+
+
+[[ ${IS_AMD} != "" ]] && {
+CORE_OVERCLOCK_LEVEL=7
+MEMORY_OVERCLOCK_LEVEL=1
+FAN_SP=$(awk "BEGIN {printf \"%.0f\n\", 255 * $FAN_SPEED/100}")
+sudo '/home/m1/rocm-smi' -s
+sudo '/home/m1/rocm-smi' -r
+sudo '/home/m1/rocm-smi' --setperflevel high
+sudo '/home/m1/rocm-smi' --setmclk $MEMORY_OVERCLOCK_LEVEL
+sudo '/home/m1/rocm-smi' --setsclk $CORE_OVERCLOCK_LEVEL
+sudo '/home/m1/rocm-smi' --setfan $FAN_SP -f
+CLIENT="/home/m1/eth/10_1/ethdcrminer64 -epool us1-etc.ethermine.org:4444 -ewal $ETC_ADDRESS.$WORKERNAME -epsw x -mode 1 -dbg -1 -wd 0 -mport -3333;"
+} ## [[ ${IS_AMD} != "" ]] && {
+
 
 SPACE_7="       "
 echo "
