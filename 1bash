@@ -28,7 +28,6 @@ gpu=$(($gpu+1))
 done ## while [[ $gpu -lt $GPUS ]]
 } ## [[ ${IS_NVIDIA} != "" ]] && {
 
-
 [[ ${IS_AMD} != "" ]] && {
 FAN_SPEED=50
 CORE_OVERCLOCK_LEVEL=7
@@ -41,7 +40,6 @@ sudo '/home/m1/rocm-smi' --setmclk $MEMORY_OVERCLOCK_LEVEL
 sudo '/home/m1/rocm-smi' --setsclk $CORE_OVERCLOCK_LEVEL
 sudo '/home/m1/rocm-smi' --setfan $FAN_SP -f
 } ## [[ ${IS_AMD} != "" ]] && {
-
 
 SPACE_7="       "
 echo "
