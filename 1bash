@@ -4,15 +4,16 @@
 #
 
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
-POWERLIMIT_WATTS="110"
+POWERLIMIT_WATTS="115"
 CORE_OVERCLOCK="50"
-MEMORY_OVERCLOCK="600"
-WORKER="oros_local"
+MEMORY_OVERCLOCK="1000"
 
+WORKER="oros_local"
 IS_AMD=$(lspci | grep VGA | grep -i amd)
 IS_NVIDIA=$(lspci | grep VGA | grep -i nvidia)
 
 [[ ${IS_NVIDIA} != "" ]] && {
+[[ ${IS_AMD} == "" ]] && WORKER=$(lspci | grep VGA | grep -i nvidia | tr ' ' '_' | tr '[]' '\n' | head -2 | tail -1 | tr '_' ' ' | awk '{print $NF}')
 sudo nvidia-smi -pl $POWERLIMIT_WATTS
 GPUS=$(nvidia-smi --query-gpu=count --format=csv,noheader,nounits | tail -1)
 NVD=nvidia-settings
@@ -29,6 +30,7 @@ done ## while [[ $gpu -lt $GPUS ]]
 } ## [[ ${IS_NVIDIA} != "" ]] && {
 
 [[ ${IS_AMD} != "" ]] && {
+[[ ${IS_NVIDIA} == "" ]] && WORKER=$(lspci | grep VGA | grep -i amd | tr ' ' '_' | tr '[]' '\n' | head -2 | tail -1 | tr '_' ' ' | awk '{print $NF}')
 FAN_SPEED=50
 CORE_OVERCLOCK_LEVEL=7
 MEMORY_OVERCLOCK_LEVEL=1
@@ -41,8 +43,10 @@ sudo '/home/m1/rocm-smi' --setsclk $CORE_OVERCLOCK_LEVEL
 sudo '/home/m1/rocm-smi' --setfan $FAN_SP -f
 } ## [[ ${IS_AMD} != "" ]] && {
 
-SPACE_7="       "
+SPACE_7="      "
 echo "
+${SPACE_7}oros local
+
 ${SPACE_7}AMD GPUS: $IS_AMD
 
 ${SPACE_7}NVIDIA GPUS: $IS_NVIDIA
