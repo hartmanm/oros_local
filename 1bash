@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# ©2018,2019,2020 Michael Neill Hartman
+#
+
+POWERLIMIT_WATTS="110"
+CORE_OVERCLOCK="50"
+MEMORY_OVERCLOCK="600"
+WORKER="1660ti"
+
+echo "POWERLIMIT_WATTS is: $POWERLIMIT_WATTS"
+echo ""
+echo ""
+echo "CORE_OVERCLOCK is: $CORE_OVERCLOCK"
+echo ""
+echo ""
+echo "MEMORY_OVERCLOCK is: $MEMORY_OVERCLOCK"
+echo ""
+echo "WORKER is: $WORKER"
+echo ""
+echo ""
+
+# OC
+sudo nvidia-smi -pl $POWERLIMIT_WATTS
+GPUS=$(nvidia-smi --query-gpu=count --format=csv,noheader,nounits | tail -1)
+NVD=nvidia-settings
+sudo nvidia-smi -pm 1
+gpu=0
+crash=0
+while [ $gpu -lt $GPUS ]
+do
+${NVD} -a [gpu:$gpu]/GPUGraphicsClockOffset[2]=$CORE_OVERCLOCK
+${NVD} -a [gpu:$gpu]/GPUMemoryTransferRateOffset[2]=$MEMORY_OVERCLOCK
+${NVD} -a [gpu:$gpu]/GPUGraphicsClockOffset[3]=$CORE_OVERCLOCK
+${NVD} -a [gpu:$gpu]/GPUMemoryTransferRateOffset[3]=$MEMORY_OVERCLOCK
+gpu=$(($gpu+1))
+done
+
+cd /home/m1/1.18a
+
+xterm -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user 0x45afaF2831E93293Edb718E3Ef8F64671900AF49.${WORKER}
+
+exec true
