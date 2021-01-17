@@ -23,7 +23,7 @@ tar -xf /home/`whoami`/rocm-4.0.0.tar.gz
 mv ROC-smi-rocm-4.0.0 rocm-smi
 } ## [[ -e /home/`whoami`/rocm-4.0.0.tar.gz ]] || {
 
-[[ `which gawk` == "" ]] && sudo pacman -S base-devel -y
+[[ `which make` == "" ]] && sudo pacman -S base-devel -y
 
 [[ -d /home/`whoami`/opencl-amd ]] || {
 cd /home/`whoami`
