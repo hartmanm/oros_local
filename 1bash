@@ -70,7 +70,7 @@ xterm -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADD
 exec true
 #!/bin/bash
 
-cd ~; rm -rf Documents Downloads Music Pictures Public Templates Videos
+cd ~; rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos
 
 sudo apt install xterm -y
 
