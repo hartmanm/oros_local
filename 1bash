@@ -1,7 +1,15 @@
+
+
+
 #!/bin/bash
 #
 # ©2018,2019,2020 Michael Neill Hartman
 #
+
+ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
+POWERLIMIT_WATTS="115"
+CORE_OVERCLOCK="50"
+MEMORY_OVERCLOCK="1000"
 
 [[ -d Downloads ]] && cd /home/`whoami`; rm -rf Documents Downloads Music Pictures Public Templates Videos
 
@@ -18,19 +26,12 @@ tar -xf /home/`whoami`/rocm-4.0.0.tar.gz
 mv ROC-smi-rocm-4.0.0 rocm-smi
 } ## [[ -e /home/`whoami`/rocm-4.0.0.tar.gz ]] || {
 
+[[ `which gawk` == "" ]] && sudo pacman -S base-devel -y
 
-
-# sudo pacman -S base-devel
-
-# git clone https://aur.archlinux.org/opencl-amd.git; cd opencl-amd; makepkg -si
-
- 
-
-
-ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
-POWERLIMIT_WATTS="115"
-CORE_OVERCLOCK="50"
-MEMORY_OVERCLOCK="1000"
+[[ -d /home/`whoami`/opencl-amd ]] || {
+cd /home/`whoami`
+git clone https://aur.archlinux.org/opencl-amd.git; cd opencl-amd; makepkg -si
+} ## [[ -d /home/`whoami`/opencl-amd ]] || {
 
 WORKER="oros_local"
 IS_AMD=$(lspci | grep VGA | grep -i amd)
@@ -56,7 +57,7 @@ done ## while [[ $gpu -lt $GPUS ]]
 [[ ${IS_AMD} != "" ]] && {
 [[ ${IS_NVIDIA} == "" ]] && WORKER=$(lspci | grep VGA | grep -i amd | tr ' ' '_' | tr '[]' '\n' | head -4 | tail -1 | tr '_' ' ' | awk '{print $(NF-1)}' | tr '/' ' ' | awk '{print $NF}')
 FAN_SPEED=25
-CORE_OVERCLOCK_LEVEL=2
+CORE_OVERCLOCK_LEVEL=1
 MEMORY_OVERCLOCK_LEVEL=3
 FAN_SP=$(awk "BEGIN {printf \"%.0f\n\", 255 * $FAN_SPEED/100}")
 cd /home/`whoami`/rocm-smi
@@ -65,15 +66,20 @@ sudo ./rocm-smi -r
 sudo ./rocm-smi --setperflevel high
 sudo ./rocm-smi --setmclk $MEMORY_OVERCLOCK_LEVEL
 sudo ./rocm-smi --setsclk $CORE_OVERCLOCK_LEVEL
-sudo ./rocm-smi --setfan $FAN_SP -f
+#sudo ./rocm-smi --setfan $FAN_SP -f
 } ## [[ ${IS_AMD} != "" ]] && {
 
 SPACE_7="  "
 echo "
 ${SPACE_7}oros local
-
+"
+[[ ${IS_AMD} != "" ]] && {
+echo " 
 ${SPACE_7}AMD GPUS: $IS_AMD
-
+"
+} ## [[ ${IS_AMD} != "" ]] && {
+[[ ${IS_NVIDIA} != "" ]] && {
+echo "
 ${SPACE_7}NVIDIA GPUS: $IS_NVIDIA
 
 ${SPACE_7}POWERLIMIT_WATTS is: $POWERLIMIT_WATTS
@@ -81,7 +87,9 @@ ${SPACE_7}POWERLIMIT_WATTS is: $POWERLIMIT_WATTS
 ${SPACE_7}CORE_OVERCLOCK is: $CORE_OVERCLOCK
 
 ${SPACE_7}MEMORY_OVERCLOCK is: $MEMORY_OVERCLOCK
-
+"
+} ## [[ ${IS_NVIDIA} != "" ]] && {
+echo "
 ${SPACE_7}ETH_ADDRESS is: $ETH_ADDRESS
 
 ${SPACE_7}WORKER is: $WORKER
@@ -92,75 +100,3 @@ cd /home/`whoami`/1.19
 xterm -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
 
 exec true
-#!/bin/bash
-
-cd ~; rm -rf Documents Downloads Music Pictures Public Templates Videos
-
-sudo apt install xterm -y
-
-
-
-
-
-
-# sudo pacman -Sy wget clinfo ocl-icd numactl libdrm gcc-libs -y 
-
-# sudo pacman -Sy rpm -y
-
-# sudo pacman -Sy make -y
-
-# sudo pacman -Sy gcc -y
-
-# sudo pacman -Sy ruby -y
-
-#http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus/x86_64/RPMS.classic/ocl-icd-2.2.12-alt1.x86_64.rpm
-
-
-#http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus/x86_64/RPMS.classic/ocl-icd-2.2.12-alt1.x86_64.rpm
-
-# extract and cd ; ./configure; make; make install
-
-
-sudo apt install ocl-icd-opencl-dev -y
-
-
-sudo ./amdgpu-install --headless --no-dkms -y
-
-
-sudo ./amdgpu-install --opencl=legacy,pal --headless --no-dkms -y
-
-
-
-sudo ./amdgpu-pro-install --opencl=legacy,pal --headless -y
-
-
-
-
-sudo ./amdgpu-pro-install --opencl=legacy,pal --headless --no-dkms -y
-
-
-sudo ./amdgpu-pro-install --uninstall
-
-
-
-sudo apt install binutils -y
-
-
-
-
-
-sudo bash kytulendu 
-
-
-
-sudo ./amdgpu-install --no-dkms -y
-
-
-sudo ./amdgpu-pro-install -y
-
-
-sudo ./amdgpu-install --uninstall -y
-
-
-
-
