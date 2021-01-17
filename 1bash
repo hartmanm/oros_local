@@ -17,6 +17,10 @@ tar -xf /home/`whoami`/lolMiner_v1.19_Lin64.tar.gz
 
 [[ `which xterm` == "" ]] && sudo pacman -Sy xterm -y
 
+IS_AMD=$(lspci | grep VGA | grep -i amd)
+IS_NVIDIA=$(lspci | grep VGA | grep -i nvidia)
+
+[[ ${IS_AMD} != "" ]] && {
 [[ -e /home/`whoami`/rocm-4.0.0.tar.gz ]] || {
 wget https://github.com/RadeonOpenCompute/ROC-smi/archive/rocm-4.0.0.tar.gz
 tar -xf /home/`whoami`/rocm-4.0.0.tar.gz
@@ -29,10 +33,9 @@ mv ROC-smi-rocm-4.0.0 rocm-smi
 cd /home/`whoami`
 git clone https://aur.archlinux.org/opencl-amd.git; cd opencl-amd; makepkg -si
 } ## [[ -d /home/`whoami`/opencl-amd ]] || {
+} ## [[ ${IS_AMD} != "" ]] && {
 
 WORKER="oros_local"
-IS_AMD=$(lspci | grep VGA | grep -i amd)
-IS_NVIDIA=$(lspci | grep VGA | grep -i nvidia)
 
 [[ ${IS_NVIDIA} != "" ]] && {
 [[ ${IS_AMD} == "" ]] && WORKER=$(lspci | grep VGA | grep -i nvidia | tr ' ' '_' | tr '[]' '\n' | head -2 | tail -1 | tr '_' ' ' | awk '{print $NF}')
