@@ -3,6 +3,30 @@
 # ©2018,2019,2020 Michael Neill Hartman
 #
 
+[[ -d Downloads ]] && cd /home/`whoami`; rm -rf Documents Downloads Music Pictures Public Templates Videos
+
+[[ -e /home/`whoami`/lolMiner_v1.19_Lin64.tar.gz ]] || {
+wget https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.19/lolMiner_v1.19_Lin64.tar.gz
+tar -xf /home/`whoami`/lolMiner_v1.19_Lin64.tar.gz
+} ## [[ -e /home/`whoami`/lolMiner_v1.19_Lin64.tar.gz ]] || {
+
+[[ `which xterm` == "" ]] && sudo pacman -Sy xterm -y
+
+[[ -e /home/`whoami`/rocm-4.0.0.tar.gz ]] || {
+wget https://github.com/RadeonOpenCompute/ROC-smi/archive/rocm-4.0.0.tar.gz
+tar -xf /home/`whoami`/rocm-4.0.0.tar.gz
+mv ROC-smi-rocm-4.0.0 rocm-smi
+} ## [[ -e /home/`whoami`/rocm-4.0.0.tar.gz ]] || {
+
+
+
+# sudo pacman -S base-devel
+
+# git clone https://aur.archlinux.org/opencl-amd.git; cd opencl-amd; makepkg -si
+
+ 
+
+
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
 POWERLIMIT_WATTS="115"
 CORE_OVERCLOCK="50"
@@ -35,7 +59,7 @@ FAN_SPEED=25
 CORE_OVERCLOCK_LEVEL=2
 MEMORY_OVERCLOCK_LEVEL=3
 FAN_SP=$(awk "BEGIN {printf \"%.0f\n\", 255 * $FAN_SPEED/100}")
-cd /home/oros/rocm-smi
+cd /home/`whoami`/rocm-smi
 sudo ./rocm-smi -s
 sudo ./rocm-smi -r
 sudo ./rocm-smi --setperflevel high
@@ -44,7 +68,7 @@ sudo ./rocm-smi --setsclk $CORE_OVERCLOCK_LEVEL
 sudo ./rocm-smi --setfan $FAN_SP -f
 } ## [[ ${IS_AMD} != "" ]] && {
 
-SPACE_7="     "
+SPACE_7="  "
 echo "
 ${SPACE_7}oros local
 
@@ -63,19 +87,38 @@ ${SPACE_7}ETH_ADDRESS is: $ETH_ADDRESS
 ${SPACE_7}WORKER is: $WORKER
 "
 
-cd /home/oros/1.19
+cd /home/`whoami`/1.19
 
 xterm -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
 
 exec true
 #!/bin/bash
 
-cd ~; rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos
+cd ~; rm -rf Documents Downloads Music Pictures Public Templates Videos
 
 sudo apt install xterm -y
 
 
 
+
+
+
+# sudo pacman -Sy wget clinfo ocl-icd numactl libdrm gcc-libs -y 
+
+# sudo pacman -Sy rpm -y
+
+# sudo pacman -Sy make -y
+
+# sudo pacman -Sy gcc -y
+
+# sudo pacman -Sy ruby -y
+
+#http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus/x86_64/RPMS.classic/ocl-icd-2.2.12-alt1.x86_64.rpm
+
+
+#http://ftp.altlinux.org/pub/distributions/ALTLinux/Sisyphus/x86_64/RPMS.classic/ocl-icd-2.2.12-alt1.x86_64.rpm
+
+# extract and cd ; ./configure; make; make install
 
 
 sudo apt install ocl-icd-opencl-dev -y
@@ -117,6 +160,7 @@ sudo ./amdgpu-pro-install -y
 
 
 sudo ./amdgpu-install --uninstall -y
+
 
 
 
