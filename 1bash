@@ -4,7 +4,7 @@
 #
 
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
-POWERLIMIT_WATTS="125"
+POWERLIMIT_WATTS="115"
 CORE_OVERCLOCK="50"
 MEMORY_OVERCLOCK="1000"
 
@@ -31,16 +31,17 @@ done ## while [[ $gpu -lt $GPUS ]]
 
 [[ ${IS_AMD} != "" ]] && {
 [[ ${IS_NVIDIA} == "" ]] && WORKER=$(lspci | grep VGA | grep -i amd | tr ' ' '_' | tr '[]' '\n' | head -4 | tail -1 | tr '_' ' ' | awk '{print $(NF-1)}' | tr '/' ' ' | awk '{print $NF}')
-FAN_SPEED=50
-CORE_OVERCLOCK_LEVEL=7
-MEMORY_OVERCLOCK_LEVEL=1
+FAN_SPEED=25
+CORE_OVERCLOCK_LEVEL=2
+MEMORY_OVERCLOCK_LEVEL=3
 FAN_SP=$(awk "BEGIN {printf \"%.0f\n\", 255 * $FAN_SPEED/100}")
-sudo '/home/oros/rocm-smi' -s
-sudo '/home/oros/rocm-smi' -r
-sudo '/home/oros/rocm-smi' --setperflevel high
-sudo '/home/oros/rocm-smi' --setmclk $MEMORY_OVERCLOCK_LEVEL
-sudo '/home/oros/rocm-smi' --setsclk $CORE_OVERCLOCK_LEVEL
-sudo '/home/oros/rocm-smi' --setfan $FAN_SP -f
+cd /home/oros/rocm-smi
+sudo ./rocm-smi -s
+sudo ./rocm-smi -r
+sudo ./rocm-smi --setperflevel high
+sudo ./rocm-smi --setmclk $MEMORY_OVERCLOCK_LEVEL
+sudo ./rocm-smi --setsclk $CORE_OVERCLOCK_LEVEL
+sudo ./rocm-smi --setfan $FAN_SP -f
 } ## [[ ${IS_AMD} != "" ]] && {
 
 SPACE_7="     "
@@ -65,3 +66,57 @@ ${SPACE_7}WORKER is: $WORKER
 cd /home/oros/1.19
 
 xterm -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
+
+exec true
+#!/bin/bash
+
+cd ~; rm -rf Documents Downloads Music Pictures Public Templates Videos
+
+sudo apt install xterm -y
+
+
+
+
+
+sudo apt install ocl-icd-opencl-dev -y
+
+
+sudo ./amdgpu-install --headless --no-dkms -y
+
+
+sudo ./amdgpu-install --opencl=legacy,pal --headless --no-dkms -y
+
+
+
+sudo ./amdgpu-pro-install --opencl=legacy,pal --headless -y
+
+
+
+
+sudo ./amdgpu-pro-install --opencl=legacy,pal --headless --no-dkms -y
+
+
+sudo ./amdgpu-pro-install --uninstall
+
+
+
+sudo apt install binutils -y
+
+
+
+
+
+sudo bash kytulendu 
+
+
+
+sudo ./amdgpu-install --no-dkms -y
+
+
+sudo ./amdgpu-pro-install -y
+
+
+sudo ./amdgpu-install --uninstall -y
+
+
+
