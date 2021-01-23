@@ -88,6 +88,7 @@ POWER_LIMITS="${POWER_LIMITS}_`nvidia-smi -i $ITERATOR -q | grep \"Min Power Lim
 [[ ${POWER_LIMITS} == "" ]] && {
 POWER_LIMITS="`nvidia-smi -i $ITERATOR -q | grep \"Min Power Limit\" | awk '{print $(NF-1)}' | tr '.' ' ' | awk '{print $1}'`"
 } ## [[ ${POWER_LIMITS} == "" ]] && {
+sudo nvidia-smi -i $ITERATOR -pl `nvidia-smi -i $ITERATOR -q | grep "Min Power Limit" | awk '{print $(NF-1)}' | tr '.' ' ' | awk '{print $1}'`
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -ne $NUMBER_OF_GPUS ]] && {
 } ## generate_powerlimits(){
