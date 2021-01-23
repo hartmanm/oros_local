@@ -96,7 +96,7 @@ ${SPACE_7}ETH_ADDRESS is: $ETH_ADDRESS
 ${SPACE_7}WORKER is: $WORKER
 "
 
-cd /home/`whoami`/1.19
+cd /media/ramdisk/1.19
 
 xterm -geometry 100x80+0+0 -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
 
