@@ -7,6 +7,7 @@ sleep 2
 #$DL
 #EOF
 # exe
+bash clear_logs
 cp -rp '/media/m1/0rig_here_/1bash' '/media/ramdisk/1bash'
 pkill -e lol
 pkill -f lol
