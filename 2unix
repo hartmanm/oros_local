@@ -8,7 +8,7 @@ sleep 2
 #EOF
 # exe
 sudo bash clear_logs
-[[ -d /media/m1/1.19 ]] && cp -rp /media/m1/1.19 /media/ramdisk/1.19
+[[ -d /media/m1/1.19 ]] && cp -rp /home/m1/1.19 /media/ramdisk/1.19
 cp -rp /media/m1/0rig_here_1/1bash /media/ramdisk/1bash
 pkill -e lol
 pkill -f lol
