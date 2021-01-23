@@ -136,8 +136,7 @@ sudo ./rocm-smi --setpoweroverdrive $POWERLIMIT_WATTS
 
 SPACE_7=" "
 echo "
-${SPACE_7}oros local
-"
+${SPACE_7}oros local"
 [[ ${IS_AMD} != "" ]] && {
 echo " 
 ${SPACE_7}AMD GPUS: $IS_AMD
