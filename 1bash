@@ -57,7 +57,6 @@ GPU_NAMES="${GPU_NAMES}_`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | aw
 GPU_NAMES="`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF-1)}'`ti"
 } ## [[ ${GPU_NAMES} == "" ]] && {
 } ## [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` == "Ti" ]] && {
-
 [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` == "SUPER" ]] && {
 [[ ${GPU_NAMES} != "" ]] && {
 GPU_NAMES="${GPU_NAMES}_`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF-1)}'`"
@@ -66,7 +65,6 @@ GPU_NAMES="${GPU_NAMES}_`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | aw
 GPU_NAMES="`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF-1)}'`"
 } ## [[ ${GPU_NAMES} == "" ]] && {
 } ## [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` == "SUPER" ]] && {
-
 [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "SUPER" && `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "Ti" ]] && {
 [[ ${GPU_NAMES} != "" ]] && {
 GPU_NAMES="${GPU_NAMES}_`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF)}'`"
