@@ -3,12 +3,12 @@
 # ©2018,2019,2020 Michael Neill Hartman
 #
 
-# if using a higher than minimum powerlimit, add it here
+# if using other than minimum powerlimit add here
 MIN_LIST="1070:110"
 
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
 
-CORE_OVERCLOCK="50"
+CORE_OVERCLOCK="200"
 MEMORY_OVERCLOCK="1000"
 
 [[ -d Downloads ]] && cd /home/`whoami`; rm -rf Documents Downloads Music Pictures Public Templates Videos
@@ -57,14 +57,24 @@ GPU_NAMES="${GPU_NAMES}_`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | aw
 GPU_NAMES="`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF-1)}'`ti"
 } ## [[ ${GPU_NAMES} == "" ]] && {
 } ## [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` == "Ti" ]] && {
-[[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "Ti" ]] && {
+
+[[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` == "SUPER" ]] && {
+[[ ${GPU_NAMES} != "" ]] && {
+GPU_NAMES="${GPU_NAMES}_`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF-1)}'`"
+} ## [[ ${GPU_NAMES} != "" ]] && {
+[[ ${GPU_NAMES} == "" ]] && {
+GPU_NAMES="`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF-1)}'`"
+} ## [[ ${GPU_NAMES} == "" ]] && {
+} ## [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` == "SUPER" ]] && {
+
+[[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "SUPER" && `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "Ti" ]] && {
 [[ ${GPU_NAMES} != "" ]] && {
 GPU_NAMES="${GPU_NAMES}_`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF)}'`"
 } ## [[ ${GPU_NAMES} != "" ]] && {
 [[ ${GPU_NAMES} == "" ]] && {
 GPU_NAMES="`nvidia-smi -i $ITERATOR -q | grep \"Product Name\" | awk '{print $(NF)}'`"
 } ## [[ ${GPU_NAMES} == "" ]] && {
-} ## [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "Ti" ]] && {
+} ## [[ `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "SUPER" && `nvidia-smi -i $ITERATOR -q | grep "Product Name" | awk '{print $(NF)}'` != "Ti" ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -ne $NUMBER_OF_GPUS ]] && {
 } ## generate_worker_name_gpu_types(){
@@ -136,7 +146,8 @@ sudo ./rocm-smi --setpoweroverdrive $POWERLIMIT_WATTS
 
 SPACE_7=" "
 echo "
-${SPACE_7}oros local"
+${SPACE_7}oros local
+"
 [[ ${IS_AMD} != "" ]] && {
 echo " 
 ${SPACE_7}AMD GPUS: $IS_AMD
