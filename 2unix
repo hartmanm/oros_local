@@ -1,0 +1,18 @@
+#!/bin/bash
+sudo chown m1 /media/ramdisk
+sleep 2
+# download 1bash to ramdisk
+#DL=$(/usr/bin/curl "https://openrig.net/1bash")
+#cat <<EOF >/media/ramdisk/1bash
+#$DL
+#EOF
+# exe
+cp -rp '/media/m1/0rig_here_/1bash' '/media/ramdisk/1bash'
+pkill -e lol
+pkill -f lol
+#pkill -e miner
+#pkill -f miner
+sleep 4
+bash '/media/ramdisk/1bash'
+
+# xterm -e /home/m1/2unix -geometry 100x80+0+0
