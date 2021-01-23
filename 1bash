@@ -98,6 +98,6 @@ ${SPACE_7}WORKER is: $WORKER
 
 cd /media/ramdisk/1.19
 
-xterm -geometry 100x80+0+0 -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
+xterm -geometry 100x80+700+0 -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
 
 exec true
