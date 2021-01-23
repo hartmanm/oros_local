@@ -4,7 +4,7 @@
 #
 
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
-POWERLIMIT_WATTS="115"
+POWERLIMIT_WATTS="110"
 CORE_OVERCLOCK="50"
 MEMORY_OVERCLOCK="1000"
 
@@ -98,6 +98,6 @@ ${SPACE_7}WORKER is: $WORKER
 
 cd /home/`whoami`/1.19
 
-xterm -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
+xterm -geometry 100x80+0+0 -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
 
 exec true
