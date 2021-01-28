@@ -4,12 +4,12 @@
 #
 
 # if using other than minimum powerlimit add here
-MIN_LIST="1070:110"
+MIN_LIST="1070:110 3060ti:115"
 
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
 
-CORE_OVERCLOCK="200"
-MEMORY_OVERCLOCK="1000"
+CORE_OVERCLOCK="0"
+MEMORY_OVERCLOCK="400"
 
 [[ -d Downloads ]] && cd /home/`whoami`; rm -rf Documents Downloads Music Pictures Public Templates Videos
 
