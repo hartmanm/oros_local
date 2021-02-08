@@ -8,13 +8,11 @@ sleep 2
 #EOF
 # exe
 sudo bash clear_logs
-[[ -d /media/m1/1.19 ]] || cp -rp /home/m1/1.19 /media/ramdisk/1.19
 cp -rp /media/m1/0rig_here_1/1bash /media/ramdisk/1bash
-pkill -e lol
-pkill -f lol
-#pkill -e miner
-#pkill -f miner
+pkill -e 1bash
+pkill -f 1bash
+until `bash /media/ramdisk/1bash`
+do
 sleep 4
-bash /media/ramdisk/1bash
-
+done ## until `bash /media/ramdisk/1bash`
 # xterm -e /home/m1/2unix -geometry 100x80+300+300
