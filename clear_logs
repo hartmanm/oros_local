@@ -18,7 +18,7 @@ cd /var/log
 
 rm -rf ~/.compiz
 
-[[ -e .ICEauthority ]] && rm .ICEauthority
+[[ -e ~/.ICEauthority ]] && rm ~/.ICEauthority
 
 rm -rf ~/.local
 
