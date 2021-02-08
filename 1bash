@@ -18,6 +18,10 @@ wget https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.19/lolM
 tar -xf /home/`whoami`/lolMiner_v1.19_Lin64.tar.gz
 } ## [[ -e /home/`whoami`/lolMiner_v1.19_Lin64.tar.gz ]] || {
 
+[[ -d /media/m1 ]] && {
+[[ -d /media/m1/1.19 ]] || cp -rp /home/m1/1.19 /media/ramdisk/1.19
+} ## [[ -d /media/m1 ]] && {
+
 [[ `which xterm` == "" ]] && sudo pacman -Sy xterm -y
 
 IS_AMD=$(lspci | grep VGA | grep -i amd)
