@@ -4,7 +4,7 @@
 #
 
 # if using other than minimum powerlimit add here
-MIN_LIST="1070:110 3060ti:110"
+MIN_LIST="1070:110 3060ti:110 3070:110"
 
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
 
