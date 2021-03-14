@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2018,2019,2020 Michael Neill Hartman
+# ©2018,2019,2020,2021 Michael Neill Hartman
 #
 
 # if using other than minimum powerlimit add here
@@ -126,8 +126,7 @@ generate_powerlimits
 raise_to_known_minimum_powerlimits
 #WORKER="`ifconfig | grep \"inet addr\" | grep -v 127.0 | awk '{print $2}' | tr '.' ' ' | awk '{print $NF}'
 #`_${GPU_NAMES}"
-WORKER="${MAC_AS_WORKER}
-`_${GPU_NAMES}"
+WORKER="${MAC_AS_WORKER}_${GPU_NAMES}"
 GPUS=$(nvidia-smi --query-gpu=count --format=csv,noheader,nounits | tail -1)
 NVD=nvidia-settings
 sudo nvidia-smi -pm 1
@@ -145,8 +144,7 @@ done ## while [[ $gpu -lt $GPUS ]]
 [[ ${IS_AMD} != "" ]] && {
 [[ ${IS_NVIDIA} == "" ]] && {
 GPU_NAME=$(lspci | grep VGA | grep -i amd | tr ' ' '_' | tr '[]' '\n' | head -4 | tail -1 | tr '_' ' ' | awk '{print $(NF-1)}' | tr '/' ' ' | awk '{print $NF}')
-WORKER="${MAC_AS_WORKER}
-`_${GPU_NAME}"
+WORKER="${MAC_AS_WORKER}_${GPU_NAME}"
 #FAN_SPEED=25
 CORE_OVERCLOCK_LEVEL=1
 MEMORY_OVERCLOCK_LEVEL=3
@@ -159,6 +157,7 @@ sudo ./rocm-smi --setmclk $MEMORY_OVERCLOCK_LEVEL
 sudo ./rocm-smi --setsclk $CORE_OVERCLOCK_LEVEL
 sudo ./rocm-smi --setpoweroverdrive $POWERLIMIT_WATTS
 #sudo ./rocm-smi --setfan $FAN_SP -f
+} ## [[ ${IS_NVIDIA} == "" ]] && {
 } ## [[ ${IS_AMD} != "" ]] && {
 
 SPACE_7=" "
@@ -188,7 +187,8 @@ echo "${SPACE_7}ETH_ADDRESS is: $ETH_ADDRESS
 ${SPACE_7}WORKER is: $WORKER
 "
 
-cd /media/ramdisk/1.19
+[[ ${IS_NVIDIA} != "" ]] && cd /media/ramdisk/1.19
+[[ ${IS_AMD} != "" ]] && cd /home/oros/1.19
 
 xterm -geometry 100x80+700+0 -e ./lolMiner --algo ETHASH --pool us1.ethermine.org:4444 --user ${ETH_ADDRESS}.${WORKER}
 
