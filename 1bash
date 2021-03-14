@@ -9,7 +9,16 @@ MIN_LIST="1070:110 3060ti:115 3070:115 3080:215 3090:275"
 ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
 
 CORE_OVERCLOCK="0"
-MEMORY_OVERCLOCK="1200"
+MEMORY_OVERCLOCK="800"
+
+[[ `which ifconfig` != "" ]] && {
+MAC=$(ifconfig -a | grep -Po 'HWaddr \K.*$')
+} ## [[ `which ifconfig` != "" ]] && {
+[[ `which ip` != "" ]] && {
+MAC=$(ip link show | grep -Po 'ether \K.*$')
+MAC=${MAC:0:17}
+} ## [[ `which ip` != "" ]] && {
+MAC_AS_WORKER=$(echo -n $MAC | tail -c -4 | sed 's|[:,]||g')
 
 [[ -d Downloads ]] && cd /home/`whoami`; rm -rf Documents Downloads Music Pictures Public Templates Videos
 
@@ -115,7 +124,9 @@ done ## while [[ $ITERATOR -ne $NUMBER_OF_GPUS ]]
 generate_worker_name_gpu_types
 generate_powerlimits
 raise_to_known_minimum_powerlimits
-WORKER="`ifconfig | grep \"inet addr\" | grep -v 127.0 | awk '{print $2}' | tr '.' ' ' | awk '{print $NF}'
+#WORKER="`ifconfig | grep \"inet addr\" | grep -v 127.0 | awk '{print $2}' | tr '.' ' ' | awk '{print $NF}'
+#`_${GPU_NAMES}"
+WORKER="${MAC_AS_WORKER}
 `_${GPU_NAMES}"
 GPUS=$(nvidia-smi --query-gpu=count --format=csv,noheader,nounits | tail -1)
 NVD=nvidia-settings
@@ -132,7 +143,10 @@ done ## while [[ $gpu -lt $GPUS ]]
 } ## [[ ${IS_NVIDIA} != "" ]] && {
 
 [[ ${IS_AMD} != "" ]] && {
-[[ ${IS_NVIDIA} == "" ]] && WORKER=$(lspci | grep VGA | grep -i amd | tr ' ' '_' | tr '[]' '\n' | head -4 | tail -1 | tr '_' ' ' | awk '{print $(NF-1)}' | tr '/' ' ' | awk '{print $NF}')
+[[ ${IS_NVIDIA} == "" ]] && {
+GPU_NAME=$(lspci | grep VGA | grep -i amd | tr ' ' '_' | tr '[]' '\n' | head -4 | tail -1 | tr '_' ' ' | awk '{print $(NF-1)}' | tr '/' ' ' | awk '{print $NF}')
+WORKER="${MAC_AS_WORKER}
+`_${GPU_NAME}"
 #FAN_SPEED=25
 CORE_OVERCLOCK_LEVEL=1
 MEMORY_OVERCLOCK_LEVEL=3
