@@ -146,6 +146,7 @@ done ## while [[ $gpu -lt $GPUS ]]
 GPU_NAME=$(lspci | grep VGA | grep -i amd | tr ' ' '_' | tr '[]' '\n' | head -4 | tail -1 | tr '_' ' ' | awk '{print $(NF-1)}' | tr '/' ' ' | awk '{print $NF}')
 WORKER="${MAC_AS_WORKER}_${GPU_NAME}"
 #FAN_SPEED=25
+POWERLIMIT_WATTS=115
 CORE_OVERCLOCK_LEVEL=1
 MEMORY_OVERCLOCK_LEVEL=3
 #FAN_SP=$(awk "BEGIN {printf \"%.0f\n\", 255 * $FAN_SPEED/100}")
