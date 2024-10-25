@@ -1,12 +1,13 @@
 #!/bin/bash
-#
-# ©2018,2019,2020,2021 Michael Neill Hartman
-#
+
+# Copyright (c) 2021 Michael Neill Hartman. All rights reserved.
+# mnh_license@proton.me
+# https://github.com/hartmanm
 
 # if using other than minimum powerlimit add here
 MIN_LIST="1070:110 3060ti:115 3070:115 3080:215 3090:275"
 
-ETH_ADDRESS="0x45afaF2831E93293Edb718E3Ef8F64671900AF49"
+ETH_ADDRESS="<your_eth_address_here>"
 
 CORE_OVERCLOCK="0"
 MEMORY_OVERCLOCK="800"
