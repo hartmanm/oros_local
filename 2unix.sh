@@ -7,11 +7,10 @@ sleep 2
 #$DL
 #EOF
 # exe
-sudo bash clear_logs
-cp -rp /media/m1/0rig_here_1/1bash /media/ramdisk/1bash
+cp -rp /media/m1/0rig_here_1/1bash.sh /media/ramdisk/1bash.sh
 pkill -e 1bash
 pkill -f 1bash
-until `bash /media/ramdisk/1bash`
+until `bash /media/ramdisk/1bash.sh`
 do
 sleep 4
 done ## until `bash /media/ramdisk/1bash`
